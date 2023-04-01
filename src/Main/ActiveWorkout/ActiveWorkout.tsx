@@ -81,14 +81,63 @@ export const ActiveWorkout = () => {
     });
   };
 
+  const sortAndSave = async (allValues: LeaderboardEntry[]) => {
+    allValues.sort((a, b) => b.steps - a.steps);
+
+    const newLeaderboard = allValues.reduce((acc, cur, index) => {
+      acc.set(index, cur);
+      return acc;
+    }, new Map<number, LeaderboardEntry>());
+
+    await db()
+      .ref(`/`)
+      .update({ leaderboard: Object.fromEntries(newLeaderboard) });
+  };
+
   const updateLeaderboard = async (steps: number, currentUser: string) => {
-    // Add update leaderboard logic here
+    const user = await db().ref(`/users/${currentUser}`).once("value");
+    const userName = user.val().name as string;
+
+    const totalStepsPath = `/users/${currentUser}/leaderboard/`;
+    const stepsSnapshot = await db().ref(totalStepsPath).once("value");
+    const totalSteps = (stepsSnapshot.val().totalSteps as number) + steps;
+    await db().ref(totalStepsPath).update({ totalSteps });
+
+    const leaderboard = await db().ref(`/leaderboard`).once("value");
+    let leaderboardCopy = { ...leaderboard.val() };
+    let allValues: LeaderboardEntry[] = Object.values(leaderboardCopy);
+
+    const leaderboardIndex = allValues.findIndex(
+      (value) => value.name === userName
+    );
+
+    if (leaderboardIndex > -1) {
+      allValues[leaderboardIndex] = {
+        steps: totalSteps,
+        name: userName,
+      };
+
+      sortAndSave(allValues);
+    } else {
+      for (let i = 0; i < allValues.length; i++) {
+        if (totalSteps > Number(allValues[i].steps)) {
+          allValues[i] = {
+            steps: totalSteps,
+            name: userName,
+          };
+          break;
+        }
+      }
+
+      sortAndSave(allValues);
+    }
   };
 
   const submitForCompletion = async (steps: number) => {
     const currentUser = auth().currentUser;
     if (currentUser) {
       await saveWorkout(steps, currentUser.uid);
+      await updateLeaderboard(steps, currentUser.uid);
     }
     nav.goBack();
   };

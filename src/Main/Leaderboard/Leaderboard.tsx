@@ -1,3 +1,4 @@
+import db, { FirebaseDatabaseTypes } from "@react-native-firebase/database";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, ListRenderItemInfo } from "react-native";
 
@@ -8,8 +9,19 @@ import { FeedWorkout } from "../../Types/FeedWorkout";
 export const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState<FeedWorkout[]>([]);
 
+  const onLeaderboardChange = (
+    snapshot: FirebaseDatabaseTypes.DataSnapshot
+  ) => {
+    if (snapshot.val()) {
+      const values: FeedWorkout[] = snapshot.val();
+      setLeaderboard(values);
+    }
+  };
+
   useEffect(() => {
-    // Query for Leaderboard
+    const refPath = `/leaderboard`;
+    db().ref(refPath).on("value", onLeaderboardChange);
+    return () => db().ref(refPath).off("value", onLeaderboardChange);
   }, []);
 
   const renderItem = (listData: ListRenderItemInfo<FeedWorkout>) => {
