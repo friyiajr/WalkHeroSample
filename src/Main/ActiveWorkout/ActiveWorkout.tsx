@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import auth from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
+
 import {
   View,
   Text,
@@ -10,11 +13,11 @@ import {
   StatusBar,
 } from "react-native";
 
-// import {
-//   addStepChangedListener,
-//   startSendingData,
-//   stopSendingData,
-// } from "expo-sample-pedometer";
+import {
+  addStepChangedListener,
+  startSendingData,
+  stopSendingData,
+} from "expo-sample-pedometer";
 
 const Steps = ({
   submitForCompletion,
@@ -24,13 +27,13 @@ const Steps = ({
   const [numOfSteps, setNumOfSteps] = useState(0);
 
   useEffect(() => {
-    // const sub = addStepChangedListener(({ step }) => {
-    //   setNumOfSteps(step);
-    // });
-    // return () => {
-    //   stopSendingData();
-    //   sub.remove();
-    // };
+    const sub = addStepChangedListener(({ step }) => {
+      setNumOfSteps(step);
+    });
+    return () => {
+      stopSendingData();
+      sub.remove();
+    };
   }, []);
 
   const submit = async () => {
@@ -65,11 +68,17 @@ export const ActiveWorkout = () => {
   });
 
   useEffect(() => {
-    // startSendingData();
+    startSendingData();
   }, []);
 
   const saveWorkout = async (steps: number, currentUser: string) => {
-    // Add Save WorkoutQuery Here
+    const sessionId = Date.now();
+
+    await db().ref(`/users/${currentUser}/sessions/${sessionId}`).set({
+      steps,
+      time,
+      date: sessionId,
+    });
   };
 
   const updateLeaderboard = async (steps: number, currentUser: string) => {
@@ -77,7 +86,10 @@ export const ActiveWorkout = () => {
   };
 
   const submitForCompletion = async (steps: number) => {
-    // Grab the user and save the workout to the DB
+    const currentUser = auth().currentUser;
+    if (currentUser) {
+      await saveWorkout(steps, currentUser.uid);
+    }
     nav.goBack();
   };
 

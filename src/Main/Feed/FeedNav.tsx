@@ -4,13 +4,13 @@ import { Feed } from "./Feed";
 import { ActiveWorkout } from "../ActiveWorkout/ActiveWorkout";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// import { requestPermissions } from "expo-sample-pedometer";
+import { requestPermissions } from "expo-sample-pedometer";
 
 const Stack = createNativeStackNavigator();
 
 export const FeedNav = () => {
   useEffect(() => {
-    // requestPermissions();
+    requestPermissions();
   }, []);
 
   return (
