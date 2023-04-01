@@ -84,6 +84,10 @@ export const ActiveWorkout = () => {
   const sortAndSave = async (allValues: LeaderboardEntry[]) => {
     allValues.sort((a, b) => b.steps - a.steps);
 
+    if (allValues.length > 3) {
+      allValues.pop();
+    }
+
     const newLeaderboard = allValues.reduce((acc, cur, index) => {
       acc.set(index, cur);
       return acc;
@@ -119,15 +123,10 @@ export const ActiveWorkout = () => {
 
       sortAndSave(allValues);
     } else {
-      for (let i = 0; i < allValues.length; i++) {
-        if (totalSteps > Number(allValues[i].steps)) {
-          allValues[i] = {
-            steps: totalSteps,
-            name: userName,
-          };
-          break;
-        }
-      }
+      allValues.push({
+        steps: totalSteps,
+        name: userName,
+      });
 
       sortAndSave(allValues);
     }
