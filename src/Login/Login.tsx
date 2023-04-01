@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -14,18 +14,36 @@ import { CTAButton } from "../Components/CTAButton/CTAButton";
 
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import auth from "@react-native-firebase/auth";
+
 export const Login = () => {
   const [email, setEmail] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
 
   const nav = useNavigation<NativeStackNavigationProp<any>>();
 
+  // useEffect(() => {
+  //   auth().signOut();
+  // }, []);
+
   const goToRegistration = () => {
     nav.push("Register");
   };
 
   const goToMainFlow = async () => {
-    // Login Query
+    if (email && password) {
+      try {
+        const response = await auth().signInWithEmailAndPassword(
+          email,
+          password
+        );
+        if (response.user) {
+          nav.replace("Main");
+        }
+      } catch (e) {
+        Alert.alert("Oops", "Please check your form and try again");
+      }
+    }
   };
 
   return (

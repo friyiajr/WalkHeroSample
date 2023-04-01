@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1040163684676-ub7rpdsbt5sqk4s68viqfkkkevb4nvo1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1040163684676-ub7rpdsbt5sqk4s68viqfkkkevb4nvo1</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBSVcyVlIQwkLFvo61nnx7-NCNeolQvmfI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1040163684676</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dfriyia2.WalkHero2</string>
+	<key>PROJECT_ID</key>
+	<string>expo-walk-hero-2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>expo-walk-hero-2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1040163684676:ios:9665d1340a23225dff9711</string>
+</dict>
+</plist>

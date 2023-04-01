@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1040163684676",
+    "project_id": "expo-walk-hero-2",
+    "storage_bucket": "expo-walk-hero-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040163684676:android:fdfd36b8cc7bb10bff9711",
+        "android_client_info": {
+          "package_name": "com.dfriyia2.WalkHero2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040163684676-qhelaqp2382stg10snfgkkjs6o47dv64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaR32YjpIBs8QFV3XCzrVv4iZ5U6VsJxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040163684676-qhelaqp2382stg10snfgkkjs6o47dv64.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1040163684676-ub7rpdsbt5sqk4s68viqfkkkevb4nvo1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dfriyia2.WalkHero2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

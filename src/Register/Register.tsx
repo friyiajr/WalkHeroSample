@@ -13,6 +13,9 @@ import {
 import { CTAButton } from "../Components/CTAButton/CTAButton";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import db from "@react-native-firebase/database";
+
 export const Register = () => {
   const [name, setName] = useState<string | undefined>();
   const [email, setEmail] = useState<string | undefined>();
@@ -20,12 +23,27 @@ export const Register = () => {
 
   const nav = useNavigation<NativeStackNavigationProp<any>>();
 
-  const createProfile = async (response: any) => {
-    // Create Profile Query Here
+  const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
+    db().ref(`/users/${response.user.uid}`).set({ name });
+    db().ref(`/users/${response.user.uid}/leaderboard`).set({ totalSteps: 0 });
   };
 
   const registerAndGoToMainFlow = async () => {
-    // Register User Query Here
+    if (email && password) {
+      try {
+        const response = await auth().createUserWithEmailAndPassword(
+          email,
+          password
+        );
+
+        if (response.user) {
+          await createProfile(response);
+          nav.replace("Main");
+        }
+      } catch (e) {
+        Alert.alert("Oops", "Please check your form and try again");
+      }
+    }
   };
 
   return (
